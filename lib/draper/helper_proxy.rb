@@ -8,9 +8,9 @@ module Draper
     end
 
     # Sends helper methods to the view context.
-    def method_missing(method, *args, &block)
+    def method_missing(method, ...)
       self.class.define_proxy method
-      send(method, *args, &block)
+      send(method, ...)
     end
 
     # Checks if the context responds to an instance method, or is able to
@@ -28,8 +28,8 @@ module Draper
     private
 
     def self.define_proxy(name)
-      define_method name do |*args, &block|
-        view_context.send(name, *args, &block)
+      define_method name do |*args, **options, &block|
+        view_context.send(name, *args, **options, &block)
       end
     end
   end
